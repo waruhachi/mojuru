@@ -8,7 +8,8 @@
 </p>
 
 <p align="center">
-    <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/mojuru-app/mojuru?style=for-the-badge&labelColor=1a1d24">
+    <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/mojuru-app/mojuru?style=for-the-badge&labelColor=1a1d24&color=70df7e">
+    <img alt="total-downloads" src="https://img.shields.io/github/downloads/mojuru-app/mojuru/total?style=for-the-badge&labelColor=1a1d24&color=70df7e">
     <a href="https://discord.com/invite/vv5nhvhqQD">
         <img alt="Discord" src="https://img.shields.io/discord/1163970236224118796?style=for-the-badge&labelColor=1a1d24&label=discord&logo=discord&color=%235567E3">
     </a>
