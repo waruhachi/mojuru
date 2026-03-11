@@ -1,30 +1,30 @@
 import {
-  GRAPH_QL_URL,
-  MEDIA,
-  MEDIA_RECOMMENDATIONS,
-  MEDIA_RELATIONS,
-  METHOD,
-  PAGES,
+	GRAPH_QL_URL,
+	MEDIA,
+	MEDIA_RECOMMENDATIONS,
+	MEDIA_RELATIONS,
+	METHOD,
+	PAGES
 } from '@/constants/Anilist';
 import {
-  AnimeData,
-  Media,
-  MediaList,
-  MediaListStatus,
-  MostPopularAnime,
-  OneShotAnime,
-  RelationConnection,
-  TrendingAnime,
-  UserInfo,
-  UserLists,
+	AnimeData,
+	Media,
+	MediaList,
+	MediaListStatus,
+	MostPopularAnime,
+	OneShotAnime,
+	RelationConnection,
+	TrendingAnime,
+	UserInfo,
+	UserLists
 } from '@/models/anilist';
 
+import { getRawStoreItem } from '../hooks/useStore';
 import { convertToUserList, getHeaders } from './anilistUtils';
 import { getOptions, makeRequest } from './requests';
-import { getRawStoreItem } from '../hooks/useStore';
 
 export const getViewerId = async (accessToken?: string): Promise<number> => {
-  var query = `
+	let query = `
           query {
               Viewer {
                   id
@@ -32,15 +32,22 @@ export const getViewerId = async (accessToken?: string): Promise<number> => {
           }
       `;
 
-  const options = getOptions(query);
-  const respData = await makeRequest(METHOD, GRAPH_QL_URL, await getHeaders(accessToken), options);
+	const options = getOptions(query);
+	const respData = await makeRequest(
+		METHOD,
+		GRAPH_QL_URL,
+		await getHeaders(accessToken),
+		options
+	);
 
-  return respData.data.Viewer.id;
+	return respData.data.Viewer.id;
 };
 
-export const getUserInfo = async (viewerId: number | null): Promise<UserInfo | null> => {
-  try {
-    var query = `
+export const getUserInfo = async (
+	viewerId: number | null
+): Promise<UserInfo | null> => {
+	try {
+		let query = `
     query($userId : Int) {
         User(id: $userId, sort: ID) {
             id
@@ -52,25 +59,25 @@ export const getUserInfo = async (viewerId: number | null): Promise<UserInfo | n
     }
 `;
 
-    const respData = await makeRequest(
-      METHOD,
-      GRAPH_QL_URL,
-      await getHeaders(),
-      getOptions(query, {
-        userId: viewerId,
-      })
-    );
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query, {
+				userId: viewerId
+			})
+		);
 
-    return respData.data.User;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+		return respData.data.User;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 };
 
 export const getTrendingAnime = async (): Promise<TrendingAnime | null> => {
-  try {
-    const query = `
+	try {
+		const query = `
      {
       Page(page: 1, perPage: ${PAGES}) {
        pageInfo {
@@ -85,18 +92,23 @@ export const getTrendingAnime = async (): Promise<TrendingAnime | null> => {
      }
     `;
 
-    const respData = await makeRequest(METHOD, GRAPH_QL_URL, await getHeaders(), getOptions(query));
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query)
+		);
 
-    return respData.data.Page;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+		return respData.data.Page;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 };
 
 export const getTrendingAnimePosters = async (): Promise<string[]> => {
-  try {
-    const query = `
+	try {
+		const query = `
      {
       Page(page: 1, perPage: 100) {
        pageInfo {
@@ -111,25 +123,31 @@ export const getTrendingAnimePosters = async (): Promise<string[]> => {
      }
     `;
 
-    const respData = await makeRequest(METHOD, GRAPH_QL_URL, await getHeaders(), getOptions(query));
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query)
+		);
 
-    const covers =
-      (respData.data.Page.media as Media[])
-        ?.map((m) => {
-          const img = m.coverImage;
-          return img?.medium ?? img?.large ?? img?.extraLarge;
-        })
-        .filter((x): x is string => Boolean(x)) ?? [];
-    return covers
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
+		const covers =
+			(respData.data.Page.media as Media[])
+				?.map((m) => {
+					const img = m.coverImage;
+					return img?.medium ?? img?.large ?? img?.extraLarge;
+				})
+				.filter((x): x is string => Boolean(x)) ?? [];
+		return covers;
+	} catch (error) {
+		console.log(error);
+		return [];
+	}
 };
 
-export const getMostPopularAnime = async (): Promise<MostPopularAnime | null> => {
-  try {
-    const query = `
+export const getMostPopularAnime =
+	async (): Promise<MostPopularAnime | null> => {
+		try {
+			const query = `
    {
     Page(page: 1, perPage: ${PAGES}) {
      pageInfo {
@@ -144,18 +162,23 @@ export const getMostPopularAnime = async (): Promise<MostPopularAnime | null> =>
    }
   `;
 
-    const respData = await makeRequest(METHOD, GRAPH_QL_URL, await getHeaders(), getOptions(query));
+			const respData = await makeRequest(
+				METHOD,
+				GRAPH_QL_URL,
+				await getHeaders(),
+				getOptions(query)
+			);
 
-    return respData.data.Page;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
+			return respData.data.Page;
+		} catch (error) {
+			console.log(error);
+			return null;
+		}
+	};
 
 export const getOneShotAnime = async (): Promise<OneShotAnime[] | null> => {
-  try {
-    const query = `
+	try {
+		const query = `
         {
           Page(page: 1, perPage: 100) {
             pageInfo {
@@ -170,27 +193,36 @@ export const getOneShotAnime = async (): Promise<OneShotAnime[] | null> => {
         }
       `;
 
-    const respData = await makeRequest(METHOD, GRAPH_QL_URL, await getHeaders(), getOptions(query));
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query)
+		);
 
-    const animeList = respData.data.Page.media;
+		const animeList = respData.data.Page.media;
 
-    const filteredAnime = animeList.filter((anime: any) => {
-      const hasRelated = anime.relations?.edges.some(
-        (relation: any) => relation.relationType === 'SEQUEL' || relation.relationType === 'PREQUEL'
-      );
-      return !hasRelated;
-    });
+		const filteredAnime = animeList.filter((anime: any) => {
+			const hasRelated = anime.relations?.edges.some(
+				(relation: any) =>
+					relation.relationType === 'SEQUEL' ||
+					relation.relationType === 'PREQUEL'
+			);
+			return !hasRelated;
+		});
 
-    return filteredAnime;
-  } catch (error) {
-    console.error('Error fetching one-shot anime:', error);
-    return null;
-  }
+		return filteredAnime;
+	} catch (error) {
+		console.error('Error fetching one-shot anime:', error);
+		return null;
+	}
 };
 
-export const getAnimeRelations = async (animeId: number): Promise<RelationConnection | null> => {
-  try {
-    const query = `
+export const getAnimeRelations = async (
+	animeId: number
+): Promise<RelationConnection | null> => {
+	try {
+		const query = `
       query($id: Int) {
         Media(id: $id, type: ANIME) {
           ${MEDIA_RELATIONS}
@@ -198,27 +230,27 @@ export const getAnimeRelations = async (animeId: number): Promise<RelationConnec
       }
     `;
 
-    const variables = {
-      id: animeId,
-    };
+		const variables = {
+			id: animeId
+		};
 
-    const respData = await makeRequest(
-      METHOD,
-      GRAPH_QL_URL,
-      await getHeaders(),
-      getOptions(query, variables)
-    );
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query, variables)
+		);
 
-    return respData.data.Media.relations;
-  } catch (error) {
-    console.error('Error fetching anime relations:', error);
-    return null;
-  }
+		return respData.data.Media.relations;
+	} catch (error) {
+		console.error('Error fetching anime relations:', error);
+		return null;
+	}
 };
 
 export const getAnimeRecommendations = async (animeId: number) => {
-  try {
-    const query = `
+	try {
+		const query = `
       query($id: Int) {
         Media(id: $id, type: ANIME) {
           ${MEDIA_RECOMMENDATIONS}
@@ -226,30 +258,30 @@ export const getAnimeRecommendations = async (animeId: number) => {
       }
     `;
 
-    const variables = {
-      id: animeId,
-    };
+		const variables = {
+			id: animeId
+		};
 
-    const respData = await makeRequest(
-      METHOD,
-      GRAPH_QL_URL,
-      await getHeaders(),
-      getOptions(query, variables)
-    );
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query, variables)
+		);
 
-    return respData.data.Media.recommendations;
-  } catch (error) {
-    console.error('Error fetching anime recommendations:', error);
-    return null;
-  }
+		return respData.data.Media.recommendations;
+	} catch (error) {
+		console.error('Error fetching anime recommendations:', error);
+		return null;
+	}
 };
 
 export const getUserLists = async (
-  viewerId: number,
-  ...statuses: MediaListStatus[]
+	viewerId: number,
+	...statuses: MediaListStatus[]
 ): Promise<UserLists> => {
-  try {
-    var query = `
+	try {
+		let query = `
           query($userId : Int, $statuses: [MediaListStatus]) {
               MediaListCollection(userId : $userId, type: ANIME, status_in: $statuses, sort: UPDATED_TIME_DESC) {
                   lists {
@@ -269,31 +301,34 @@ export const getUserLists = async (
           }
       `;
 
-    const respData = await makeRequest(
-      METHOD,
-      GRAPH_QL_URL,
-      await getHeaders(),
-      getOptions(query, {
-        userId: viewerId,
-        statuses: statuses,
-      })
-    );
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			await getHeaders(),
+			getOptions(query, {
+				userId: viewerId,
+				statuses: statuses
+			})
+		);
 
-    if (
-      respData.data.MediaListCollection.lists.length === 0 ||
-      respData.data.MediaListCollection.lists === undefined
-    )
-      return {} as UserLists;
+		if (
+			respData.data.MediaListCollection.lists.length === 0 ||
+			respData.data.MediaListCollection.lists === undefined
+		)
+			return {} as UserLists;
 
-    return convertToUserList(respData.data.MediaListCollection.lists);
-  } catch (error) {
-    console.log(error);
-    return {} as UserLists;
-  }
+		return convertToUserList(respData.data.MediaListCollection.lists);
+	} catch (error) {
+		console.log(error);
+		return {} as UserLists;
+	}
 };
 
-export const searchFilteredAnime = async (args: string, page: number = 1): Promise<AnimeData> => {
-  var query = `
+export const searchFilteredAnime = async (
+	args: string,
+	page: number = 1
+): Promise<AnimeData> => {
+	let query = `
       {
           Page(page: ${page}, perPage: 50) {
               pageInfo {
@@ -308,8 +343,13 @@ export const searchFilteredAnime = async (args: string, page: number = 1): Promi
       }
       `;
 
-  const respData = await makeRequest(METHOD, GRAPH_QL_URL, await getHeaders(), getOptions(query));
-  return respData.data.Page;
+	const respData = await makeRequest(
+		METHOD,
+		GRAPH_QL_URL,
+		await getHeaders(),
+		getOptions(query)
+	);
+	return respData.data.Page;
 };
 
 /* MUTATIONS */
@@ -324,22 +364,22 @@ export const searchFilteredAnime = async (args: string, page: number = 1): Promi
  * @returns media list entry id
  */
 export const updateAnimeFromList = async (
-  mediaId: any,
-  status?: any,
-  scoreRaw?: any,
-  progress?: any
+	mediaId: any,
+	status?: any,
+	scoreRaw?: any,
+	progress?: any
 ): Promise<MediaList | null> => {
-  const accessToken = await getRawStoreItem('access_token');
-  if (!accessToken) return null;
+	const accessToken = await getRawStoreItem('access_token');
+	if (!accessToken) return null;
 
-  try {
-    var query = `
+	try {
+		let query = `
           mutation($mediaId: Int${progress ? ', $progress: Int' : ''}${
-      scoreRaw ? ', $scoreRaw: Int' : ''
-    }${status ? ', $status: MediaListStatus' : ''}) {
+				scoreRaw ? ', $scoreRaw: Int' : ''
+			}${status ? ', $status: MediaListStatus' : ''}) {
               SaveMediaListEntry(mediaId: $mediaId${progress ? ', progress: $progress' : ''}${
-      scoreRaw ? ', scoreRaw: $scoreRaw' : ''
-    }${status ? ', status: $status' : ''}) {
+					scoreRaw ? ', scoreRaw: $scoreRaw' : ''
+				}${status ? ', status: $status' : ''}) {
                   id
                   mediaId
                   status
@@ -349,38 +389,38 @@ export const updateAnimeFromList = async (
           }
       `;
 
-    var variables: any = {
-      mediaId: mediaId,
-    };
+		let variables: any = {
+			mediaId: mediaId
+		};
 
-    if (status !== undefined) variables.status = status;
-    if (scoreRaw !== undefined) variables.scoreRaw = scoreRaw;
-    if (progress !== undefined) variables.progress = progress;
+		if (status !== undefined) variables.status = status;
+		if (scoreRaw !== undefined) variables.scoreRaw = scoreRaw;
+		if (progress !== undefined) variables.progress = progress;
 
-    const respData = await makeRequest(
-      METHOD,
-      GRAPH_QL_URL,
-      {
-        Authorization: 'Bearer ' + accessToken,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      getOptions(query, variables)
-    );
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			{
+				Authorization: 'Bearer ' + accessToken,
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			},
+			getOptions(query, variables)
+		);
 
-    return respData.data.SaveMediaListEntry as MediaList;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+		return respData.data.SaveMediaListEntry as MediaList;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 };
 
 export const deleteAnimeFromList = async (id: any): Promise<boolean> => {
-  const accessToken = await getRawStoreItem('access_token');
-  if (!accessToken) return false;
+	const accessToken = await getRawStoreItem('access_token');
+	if (!accessToken) return false;
 
-  try {
-    var query = `
+	try {
+		let query = `
           mutation($id: Int){
               DeleteMediaListEntry(id: $id){
                   deleted
@@ -388,22 +428,27 @@ export const deleteAnimeFromList = async (id: any): Promise<boolean> => {
           }
       `;
 
-    var headers = {
-      Authorization: 'Bearer ' + accessToken,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    };
+		let headers = {
+			Authorization: 'Bearer ' + accessToken,
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		};
 
-    var variables = {
-      id: id,
-    };
+		let variables = {
+			id: id
+		};
 
-    const options = getOptions(query, variables);
-    const respData = await makeRequest(METHOD, GRAPH_QL_URL, headers, options);
+		const options = getOptions(query, variables);
+		const respData = await makeRequest(
+			METHOD,
+			GRAPH_QL_URL,
+			headers,
+			options
+		);
 
-    return respData.data.DeleteMediaListEntry.deleted as boolean;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
+		return respData.data.DeleteMediaListEntry.deleted as boolean;
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
 };

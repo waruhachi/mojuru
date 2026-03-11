@@ -11,21 +11,21 @@ import { useAtom } from 'jotai';
  */
 
 const useTheme = () => {
-  const [theme, setTheme] = useAtom(themeAtom);
+	const [theme, setTheme] = useAtom(themeAtom);
 
-  const changeTheme = async (newTheme: keyof typeof Colors) => {
-    Colors[newTheme] ? setTheme(Colors[newTheme]) : setTheme(Colors['Mojuru']);
-  };
+	const changeTheme = (newTheme: keyof typeof Colors) => {
+		setTheme(Colors[newTheme] ?? Colors.Mojuru);
+	};
 
-  const resetTheme = () => {
-    setTheme(Colors['Mojuru']);
-  };
+	const resetTheme = () => {
+		setTheme(Colors['Mojuru']);
+	};
 
-  return {
-    theme,
-    changeTheme,
-    resetTheme,
-  };
+	return {
+		theme,
+		changeTheme,
+		resetTheme
+	};
 };
 
 export default useTheme;

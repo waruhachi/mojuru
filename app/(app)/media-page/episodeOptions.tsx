@@ -1,5 +1,3 @@
-const EpisodeOptionsScreen = () => {
-  
-}
+const EpisodeOptionsScreen = () => {};
 
-export default EpisodeOptionsScreen
+export default EpisodeOptionsScreen;

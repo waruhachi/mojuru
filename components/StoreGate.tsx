@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 interface StoreGateProps {
-  children: React.ReactNode;
-  onReady?: () => void;
+	children: React.ReactNode;
+	onReady?: () => void;
 }
 
 /**
@@ -14,41 +14,51 @@ interface StoreGateProps {
  * Optionally triggers the `onReady` callback once the store is ready.
  */
 const StoreGate: React.FC<StoreGateProps> = ({ children, onReady }) => {
-  const { initStore, lockPremiumFeatures, unlockPremiumFeatures, restorePremiumSettings } =
-    useStore();
-  const [ready, setReady] = useState(false);
+	const {
+		initStore,
+		lockPremiumFeatures,
+		unlockPremiumFeatures,
+		restorePremiumSettings
+	} = useStore();
+	const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    const run = async () => {
-      const loadedStore = await initStore();
+	useEffect(() => {
+		const run = async () => {
+			const loadedStore = await initStore();
 
-      if ((loadedStore.unlockedSource as PremiumSource) !== 'Key') {
-        const check = await checkPremiumFlags();
-        console.log('Premium flags checked: ', JSON.stringify(check));
+			if ((loadedStore.unlockedSource as PremiumSource) !== 'Key') {
+				const check = await checkPremiumFlags();
+				console.log('Premium flags checked: ', JSON.stringify(check));
 
-        if (loadedStore.unlocked) {
-          if (!check.access) {
-            await restorePremiumSettings();
-            await lockPremiumFeatures();
-            console.log('Locked premium by event');
-          }
-        } else {
-          if (check.access) {
-            unlockPremiumFeatures('Event');
-            console.log('Unlocked premium by event');
-          }
-        }
-      }
+				if (loadedStore.unlocked) {
+					if (!check.access) {
+						await restorePremiumSettings();
+						await lockPremiumFeatures();
+						console.log('Locked premium by event');
+					}
+				} else {
+					if (check.access) {
+						unlockPremiumFeatures('Event');
+						console.log('Unlocked premium by event');
+					}
+				}
+			}
 
-      setReady(true);
-      onReady?.();
-    };
-    run();
-  }, [onReady]);
+			setReady(true);
+			onReady?.();
+		};
+		run();
+	}, [
+		initStore,
+		lockPremiumFeatures,
+		onReady,
+		restorePremiumSettings,
+		unlockPremiumFeatures
+	]);
 
-  if (!ready) return <View />;
+	if (!ready) return <View />;
 
-  return <>{children}</>;
+	return <>{children}</>;
 };
 
 export default StoreGate;

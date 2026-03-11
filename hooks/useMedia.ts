@@ -1,75 +1,92 @@
 import { mediaAtom } from '@/atoms';
 import { MediaData } from '@/models/mediaData';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 
 export function useMedia() {
-  const mediaState = useAtomValue(mediaAtom);
-  const setMedia = useSetAtom(mediaAtom);
+	const mediaState = useAtomValue(mediaAtom);
+	const setMedia = useSetAtom(mediaAtom);
 
-  function getMedia(provider: string, id: string | number): MediaData | undefined {
-    return useMemo(() => {
-      return mediaState?.[provider]?.[id];
-    }, [mediaState, provider, id]);
-  }
+	const getMedia = useCallback(
+		(provider: string, id: string | number): MediaData | undefined => {
+			return mediaState?.[provider]?.[id];
+		},
+		[mediaState]
+	);
 
-  function ensureMedia(provider: string, media: MediaData): void {
-    setMedia((prev) => {
-      if (prev[provider]?.[media.id]) return prev;
-      return {
-        ...prev,
-        [provider]: {
-          ...(prev[provider] || {}),
-          [media.id]: media,
-        },
-      };
-    });
-  }
+	const ensureMedia = useCallback(
+		(provider: string, media: MediaData): void => {
+			setMedia((prev) => {
+				if (prev[provider]?.[media.id]) return prev;
+				return {
+					...prev,
+					[provider]: {
+						...(prev[provider] || {}),
+						[media.id]: media
+					}
+				};
+			});
+		},
+		[setMedia]
+	);
 
-  function setFullMedia(provider: string, media: MediaData): void {
-    setMedia((prev) => ({
-      ...prev,
-      [provider]: {
-        ...(prev[provider] || {}),
-        [media.id]: media,
-      },
-    }));
-  }
+	const setFullMedia = useCallback(
+		(provider: string, media: MediaData): void => {
+			setMedia((prev) => ({
+				...prev,
+				[provider]: {
+					...(prev[provider] || {}),
+					[media.id]: media
+				}
+			}));
+		},
+		[setMedia]
+	);
 
-  function updateMedia(provider: string, id: string | number, partial: Partial<MediaData>): void {
-    setMedia((prev) => ({
-      ...prev,
-      [provider]: {
-        ...(prev[provider] || {}),
-        [id]: {
-          ...(prev[provider]?.[id] || {}),
-          ...partial,
-        },
-      },
-    }));
-  }
+	const updateMedia = useCallback(
+		(
+			provider: string,
+			id: string | number,
+			partial: Partial<MediaData>
+		): void => {
+			setMedia((prev) => ({
+				...prev,
+				[provider]: {
+					...(prev[provider] || {}),
+					[id]: {
+						...(prev[provider]?.[id] || {}),
+						...partial
+					}
+				}
+			}));
+		},
+		[setMedia]
+	);
 
-  function removeMedia(provider: string, id: string | number): void {
-    setMedia((prev) => {
-      if (!prev[provider]?.[id]) return prev;
-      const { [id]: _, ...rest } = prev[provider];
-      return {
-        ...prev,
-        [provider]: rest,
-      };
-    });
-  }
+	const removeMedia = useCallback(
+		(provider: string, id: string | number): void => {
+			setMedia((prev) => {
+				if (!prev[provider]?.[id]) return prev;
+				const { [id]: _, ...rest } = prev[provider];
+				return {
+					...prev,
+					[provider]: rest
+				};
+			});
+		},
+		[setMedia]
+	);
 
-  function clearMedia(): void {
-    setMedia({});
-  }
+	const clearMedia = useCallback((): void => {
+		setMedia({});
+	}, [setMedia]);
 
-  return {
-    getMedia,
-    ensureMedia,
-    setFullMedia,
-    updateMedia,
-    removeMedia,
-    clearMedia,
-  };
+	return {
+		getMedia,
+		ensureMedia,
+		setFullMedia,
+		updateMedia,
+		removeMedia,
+		clearMedia
+	};
 }

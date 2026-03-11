@@ -1,24 +1,31 @@
 export const APP_EDITION: 'free' | 'premium' = 'free';
 
-export const APP_ICONS = ['mojuru', 'saikou', 'akuse', 'morningcrust', 'hollowdeep'] as const;
+export const APP_ICONS = [
+	'mojuru',
+	'saikou',
+	'akuse',
+	'morningcrust',
+	'hollowdeep'
+] as const;
 
 export const ICON_IMAGES: Record<string, any> = {
-  mojuru: require('@/assets/images/icon.png'),
-  akuse: require('@/assets/images/customIcons/akuse.png'),
-  saikou: require('@/assets/images/customIcons/saikou.png'),
-  hollowdeep: require('@/assets/images/customIcons/hollowdeep.png'),
-  morningcrust: require('@/assets/images/customIcons/morningcrust.png'),
+	mojuru: require('@/assets/images/icon.png'),
+	akuse: require('@/assets/images/customIcons/akuse.png'),
+	saikou: require('@/assets/images/customIcons/saikou.png'),
+	hollowdeep: require('@/assets/images/customIcons/hollowdeep.png'),
+	morningcrust: require('@/assets/images/customIcons/morningcrust.png')
 };
 
 export const APP_ICON_PATH = require('@/assets/images/icon.png');
 export const SAMPLE_IMAGE =
-  'https://static.wikia.nocookie.net/hunterxhunter/images/9/97/Netero_Zeno_ep111.png/revision/latest/scale-to-width-down/1000?cb=20131224214950';
+	'https://static.wikia.nocookie.net/hunterxhunter/images/9/97/Netero_Zeno_ep111.png/revision/latest/scale-to-width-down/1000?cb=20131224214950';
 
 export const WEBSITE_URL = 'https://www.mojuru.app';
 export const SPONSOR_URL = 'https://ko-fi.com/aleganza';
 
 // will redirect
-export const PLUGIN_REPO_BLACKLIST_URL = "https://www.mojuru.app/go/plugin-repo-blacklist"
+export const PLUGIN_REPO_BLACKLIST_URL =
+	'https://www.mojuru.app/go/plugin-repo-blacklist';
 export const DISCORD_CHANNEL_URL = 'https://www.mojuru.app/go/discord';
 export const GITHUB_REPO_URL = 'https://www.mojuru.app/go/mojuru-repo';
 export const DEMO_PLUGINS_REPO_URL = 'https://www.mojuru.app/go/demo-plugins';
@@ -39,77 +46,97 @@ export const ANIME_ENTRY_WIDTH = ANIME_ENTRY_HEIGHT / 1.45;
 export const EPISODES_PER_PAGE = 30;
 
 export const INTEGRATIONS = [
-  {name: "AniList API", url: "https://docs.anilist.co/" },
-  {name: "Aniskip API", url: "https://github.com/aniskip/aniskip-api/" },
-  {name: "api.ani.zip", url: "https://api.ani.zip/" },
-]
+	{ name: 'AniList API', url: 'https://docs.anilist.co/' },
+	{ name: 'Aniskip API', url: 'https://github.com/aniskip/aniskip-api/' },
+	{ name: 'api.ani.zip', url: 'https://api.ani.zip/' }
+];
 
 export const DEPENDENCIES = [
-  { name: "@expo/vector-icons", version: "^14.1.0", license: "MIT" },
-  { name: "@react‑native‑async‑storage/async‑storage", version: "2.1.2", license: "MIT" },
-  { name: "@react‑native‑community/slider", version: "4.5.6", license: "MIT" },
-  { name: "@react‑navigation/native", version: "^7.0.0", license: "MIT" },
-  { name: "@types/react‑native‑dotenv", version: "^0.2.2", license: "MIT" }, 
-  { name: "axios", version: "^1.7.7", license: "MIT" },
-  { name: "expo", version: "^53.0.23", license: "MIT" },
-  { name: "expo‑application", version: "~6.1.5", license: "MIT" },
-  { name: "expo‑asset", version: "~11.1.7", license: "MIT" },
-  { name: "expo‑auth‑session", version: "~6.2.1", license: "MIT" },
-  { name: "expo‑blur", version: "~14.1.5", license: "MIT" },
-  { name: "expo‑brightness", version: "~13.1.4", license: "MIT" },
-  { name: "expo‑constants", version: "~17.1.7", license: "MIT" },
-  { name: "expo‑crypto", version: "~14.1.5", license: "MIT" },
-  { name: "expo‑dev‑client", version: "~5.2.4", license: "MIT" },
-  { name: "expo‑device", version: "~7.1.4", license: "MIT" },
-  { name: "expo‑font", version: "~13.3.2", license: "MIT" },
-  { name: "expo‑haptics", version: "~14.1.4", license: "MIT" },
-  { name: "expo‑image", version: "~2.4.1", license: "MIT" },
-  { name: "expo‑linear‑gradient", version: "~14.1.5", license: "MIT" },
-  { name: "expo‑linking", version: "~7.1.7", license: "MIT" },
-  { name: "expo‑router", version: "~5.1.7", license: "MIT" },
-  { name: "expo‑screen‑orientation", version: "~8.1.7", license: "MIT" },
-  { name: "expo‑splash‑screen", version: "~0.30.10", license: "MIT" },
-  { name: "expo‑status‑bar", version: "~2.2.3", license: "MIT" },
-  { name: "expo‑system‑ui", version: "~5.0.11", license: "MIT" },
-  { name: "expo‑updates", version: "~0.28.17", license: "MIT" },
-  { name: "expo‑video", version: "~2.2.2", license: "MIT" },
-  { name: "expo‑web‑browser", version: "~14.2.0", license: "MIT" },
-  { name: "jotai", version: "^2.10.2", license: "MIT" },
-  { name: "lucide‑react‑native", version: "^0.546.0", license: "MIT" },
-  { name: "mojuru", version: "file:", license: "UNKNOWN" },
-  { name: "nixa‑expo‑dynamic‑app‑icon", version: "^1.2.6", license: "MIT" },
-  { name: "react", version: "19.0.0", license: "MIT" },
-  { name: "react‑dom", version: "19.0.0", license: "MIT" },
-  { name: "react‑native", version: "0.79.6", license: "MIT" },
-  { name: "react‑native‑actions‑sheet", version: "^0.9.7", license: "MIT" },
-  { name: "react‑native‑dialog", version: "^9.3.0", license: "MIT" },
-  { name: "react‑native‑gesture‑handler", version: "~2.24.0", license: "MIT" },
-  { name: "react‑native‑indicators", version: "^0.17.0", license: "MIT" },
-  { name: "react‑native‑reanimated", version: "~3.17.4", license: "MIT" },
-  { name: "react‑native‑render‑html", version: "^6.3.4", license: "MIT" },
-  { name: "react‑native‑safe‑area‑context", version: "5.4.0", license: "MIT" },
-  { name: "react‑native‑screens", version: "~4.11.1", license: "MIT" },
-  { name: "react‑native‑svg", version: "15.11.2", license: "MIT" },
-  { name: "react‑native‑video", version: "^6.16.1", license: "MIT" },
-  { name: "react‑native‑web", version: "^0.20.0", license: "MIT" },
-  { name: "react‑native‑webview", version: "13.13.5", license: "MIT" },
-  { name: "react‑wrap‑balancer", version: "^1.1.1", license: "MIT" },
-  { name: "subtitles‑parser‑vtt", version: "^0.1.0", license: "MIT" },
+	{ name: '@expo/vector-icons', version: '^14.1.0', license: 'MIT' },
+	{
+		name: '@react‑native‑async‑storage/async‑storage',
+		version: '2.1.2',
+		license: 'MIT'
+	},
+	{
+		name: '@react‑native‑community/slider',
+		version: '4.5.6',
+		license: 'MIT'
+	},
+	{ name: '@react‑navigation/native', version: '^7.0.0', license: 'MIT' },
+	{ name: '@types/react‑native‑dotenv', version: '^0.2.2', license: 'MIT' },
+	{ name: 'axios', version: '^1.7.7', license: 'MIT' },
+	{ name: 'expo', version: '^53.0.23', license: 'MIT' },
+	{ name: 'expo‑application', version: '~6.1.5', license: 'MIT' },
+	{ name: 'expo‑asset', version: '~11.1.7', license: 'MIT' },
+	{ name: 'expo‑auth‑session', version: '~6.2.1', license: 'MIT' },
+	{ name: 'expo‑blur', version: '~14.1.5', license: 'MIT' },
+	{ name: 'expo‑brightness', version: '~13.1.4', license: 'MIT' },
+	{ name: 'expo‑constants', version: '~17.1.7', license: 'MIT' },
+	{ name: 'expo‑crypto', version: '~14.1.5', license: 'MIT' },
+	{ name: 'expo‑dev‑client', version: '~5.2.4', license: 'MIT' },
+	{ name: 'expo‑device', version: '~7.1.4', license: 'MIT' },
+	{ name: 'expo‑font', version: '~13.3.2', license: 'MIT' },
+	{ name: 'expo‑haptics', version: '~14.1.4', license: 'MIT' },
+	{ name: 'expo‑image', version: '~2.4.1', license: 'MIT' },
+	{ name: 'expo‑linear‑gradient', version: '~14.1.5', license: 'MIT' },
+	{ name: 'expo‑linking', version: '~7.1.7', license: 'MIT' },
+	{ name: 'expo‑router', version: '~5.1.7', license: 'MIT' },
+	{ name: 'expo‑screen‑orientation', version: '~8.1.7', license: 'MIT' },
+	{ name: 'expo‑splash‑screen', version: '~0.30.10', license: 'MIT' },
+	{ name: 'expo‑status‑bar', version: '~2.2.3', license: 'MIT' },
+	{ name: 'expo‑system‑ui', version: '~5.0.11', license: 'MIT' },
+	{ name: 'expo‑updates', version: '~0.28.17', license: 'MIT' },
+	{ name: 'expo‑video', version: '~2.2.2', license: 'MIT' },
+	{ name: 'expo‑web‑browser', version: '~14.2.0', license: 'MIT' },
+	{ name: 'jotai', version: '^2.10.2', license: 'MIT' },
+	{ name: 'lucide‑react‑native', version: '^0.546.0', license: 'MIT' },
+	{ name: 'mojuru', version: 'file:', license: 'UNKNOWN' },
+	{ name: 'nixa‑expo‑dynamic‑app‑icon', version: '^1.2.6', license: 'MIT' },
+	{ name: 'react', version: '19.0.0', license: 'MIT' },
+	{ name: 'react‑dom', version: '19.0.0', license: 'MIT' },
+	{ name: 'react‑native', version: '0.79.6', license: 'MIT' },
+	{ name: 'react‑native‑actions‑sheet', version: '^0.9.7', license: 'MIT' },
+	{ name: 'react‑native‑dialog', version: '^9.3.0', license: 'MIT' },
+	{
+		name: 'react‑native‑gesture‑handler',
+		version: '~2.24.0',
+		license: 'MIT'
+	},
+	{ name: 'react‑native‑indicators', version: '^0.17.0', license: 'MIT' },
+	{ name: 'react‑native‑reanimated', version: '~3.17.4', license: 'MIT' },
+	{ name: 'react‑native‑render‑html', version: '^6.3.4', license: 'MIT' },
+	{
+		name: 'react‑native‑safe‑area‑context',
+		version: '5.4.0',
+		license: 'MIT'
+	},
+	{ name: 'react‑native‑screens', version: '~4.11.1', license: 'MIT' },
+	{ name: 'react‑native‑svg', version: '15.11.2', license: 'MIT' },
+	{ name: 'react‑native‑video', version: '^6.16.1', license: 'MIT' },
+	{ name: 'react‑native‑web', version: '^0.20.0', license: 'MIT' },
+	{ name: 'react‑native‑webview', version: '13.13.5', license: 'MIT' },
+	{ name: 'react‑wrap‑balancer', version: '^1.1.1', license: 'MIT' },
+	{ name: 'subtitles‑parser‑vtt', version: '^0.1.0', license: 'MIT' },
 
-  /* dev dependencies */
-  { name: "@babel/core", version: "^7.26.0", license: "MIT" },
-  { name: "@types/jest", version: "^29.5.14", license: "MIT" },
-  { name: "@types/lodash", version: "^4.17.14", license: "MIT" },
-  { name: "@types/react", version: "~19.0.10", license: "MIT" },
-  { name: "@types/react‑native‑indicators", version: "^0.16.6", license: "MIT" },
-  { name: "jest", version: "^29.7.0", license: "MIT" },
-  { name: "jest‑expo", version: "~53.0.10", license: "MIT" },
-  { name: "patch‑package", version: "^8.0.1", license: "MIT" },
-  { name: "typescript", version: "~5.8.3", license: "Apache‑2.0" },
+	/* dev dependencies */
+	{ name: '@babel/core', version: '^7.26.0', license: 'MIT' },
+	{ name: '@types/jest', version: '^29.5.14', license: 'MIT' },
+	{ name: '@types/lodash', version: '^4.17.14', license: 'MIT' },
+	{ name: '@types/react', version: '~19.0.10', license: 'MIT' },
+	{
+		name: '@types/react‑native‑indicators',
+		version: '^0.16.6',
+		license: 'MIT'
+	},
+	{ name: 'jest', version: '^29.7.0', license: 'MIT' },
+	{ name: 'jest‑expo', version: '~53.0.10', license: 'MIT' },
+	{ name: 'patch‑package', version: '^8.0.1', license: 'MIT' },
+	{ name: 'typescript', version: '~5.8.3', license: 'Apache‑2.0' }
 ];
 
 export const LICENSES: Record<string, string> = {
-  MIT: `
+	MIT: `
 The MIT License (MIT)
 
 Copyright (c) 2015-present 650 Industries, Inc. (aka Expo)
@@ -132,7 +159,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
   `,
-  'Apache-2.0': `
+	'Apache-2.0': `
 Apache License
 
 Version 2.0, January 2004
@@ -189,7 +216,7 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 
 END OF TERMS AND CONDITIONS
   `,
-  Mojuru: `
+	Mojuru: `
 Copyright (c) 2025 Alessio Ganzarolli (aleganza)
 
 All rights reserved.
@@ -223,5 +250,5 @@ This license does not grant any rights under any patent, trademark, or other int
 6. Changes to License:
 License terms may change over time. Continued access or use of the repository indicates agreement to the most recent version. It is your responsibility to review updates periodically.
 
-  `,
+  `
 };

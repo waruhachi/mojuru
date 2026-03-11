@@ -10,106 +10,122 @@ import Txt from './Txt';
 
 export type Value = string | number;
 
-export type Options = Array<{
-  label: string;
-  value: Value;
-}>;
+export type Options = {
+	label: string;
+	value: Value;
+}[];
 
 const OptionsModal: React.FC<{
-  visible: boolean;
+	visible: boolean;
 
-  options: Options;
-  defaultValue: Value;
-  onClose: () => void;
+	options: Options;
+	defaultValue: Value;
+	onClose: () => void;
 
-  closeOnChange?: boolean;
-  onChange: (newValue: Value) => void;
-}> = ({ visible, options, defaultValue, onClose, closeOnChange = false, onChange }) => {
-  const { height } = Dimensions.get('window');
-  const { theme } = useTheme();
+	closeOnChange?: boolean;
+	onChange: (newValue: Value) => void;
+}> = ({
+	visible,
+	options,
+	defaultValue,
+	onClose,
+	closeOnChange = false,
+	onChange
+}) => {
+	const { height } = Dimensions.get('window');
+	const { theme } = useTheme();
 
-  const [selectedValue, setSelectedValue] = useState<Value>(defaultValue);
+	const [selectedValue, setSelectedValue] = useState<Value>(defaultValue);
 
-  useEffect(() => {
-    setSelectedValue(defaultValue);
-  }, [defaultValue]);
+	useEffect(() => {
+		setSelectedValue(defaultValue);
+	}, [defaultValue]);
 
-  const handleOptionPress = (value: Value) => {
-    hapticVibrate();
-    setSelectedValue(value);
-    onChange(value);
-    if (closeOnChange) onClose();
-  };
+	const handleOptionPress = (value: Value) => {
+		hapticVibrate();
+		setSelectedValue(value);
+		onChange(value);
+		if (closeOnChange) onClose();
+	};
 
-  return (
-    <ModalBlurWrapper visible={visible} onClose={onClose}>
-      <View
-        style={{
-          flex: 1,
-          position: 'relative',
-        }}
-      >
-        <FlatList
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            position: 'absolute',
-            top: 0,
-            left: '50%',
-            transform: [{ translateX: '-50%' }],
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 15,
-            paddingVertical: height * 0.3,
-          }}
-          data={options}
-          keyExtractor={(item) => String(item.value)}
-          renderItem={({ item: option }) => (
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => handleOptionPress(option.value)}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Txt
-                style={{
-                  fontFamily: selectedValue === option.value ? 'SemiBold' : 'Regular',
-                  fontSize: 18,
-                  color: selectedValue === option.value ? theme.text : theme.textShy,
-                }}
-              >
-                {option.label}
-              </Txt>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+	return (
+		<ModalBlurWrapper
+			visible={visible}
+			onClose={onClose}
+		>
+			<View
+				style={{
+					flex: 1,
+					position: 'relative'
+				}}
+			>
+				<FlatList
+					keyboardShouldPersistTaps='handled'
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{
+						position: 'absolute',
+						top: 0,
+						left: '50%',
+						transform: [{ translateX: '-50%' }],
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+						gap: 15,
+						paddingVertical: height * 0.3
+					}}
+					data={options}
+					keyExtractor={(item) => String(item.value)}
+					renderItem={({ item: option }) => (
+						<TouchableOpacity
+							activeOpacity={0.5}
+							onPress={() => handleOptionPress(option.value)}
+							style={{
+								flexDirection: 'row',
+								alignItems: 'center'
+							}}
+						>
+							<Txt
+								style={{
+									fontFamily:
+										selectedValue === option.value ?
+											'SemiBold'
+										:	'Regular',
+									fontSize: 18,
+									color:
+										selectedValue === option.value ?
+											theme.text
+										:	theme.textShy
+								}}
+							>
+								{option.label}
+							</Txt>
+						</TouchableOpacity>
+					)}
+				/>
+			</View>
 
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 30,
-          left: '50%',
-          width: '100%',
-          transform: [{ translateX: '-50%' }],
-          zIndex: 100,
-          justifyContent: 'center',
-        }}
-      >
-        <IconCircleButton
-          Icon={X}
-          largerTouchArea
-          sizeBias={12}
-          onPress={() => {
-            onClose();
-          }}
-        />
-      </View>
-    </ModalBlurWrapper>
-  );
+			<View
+				style={{
+					position: 'absolute',
+					bottom: 30,
+					left: '50%',
+					width: '100%',
+					transform: [{ translateX: '-50%' }],
+					zIndex: 100,
+					justifyContent: 'center'
+				}}
+			>
+				<IconCircleButton
+					Icon={X}
+					largerTouchArea
+					sizeBias={12}
+					onPress={() => {
+						onClose();
+					}}
+				/>
+			</View>
+		</ModalBlurWrapper>
+	);
 };
 
 export default OptionsModal;

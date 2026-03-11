@@ -1,25 +1,25 @@
-import { useState, useEffect } from "react";
-import { Dimensions } from "react-native";
+import { useEffect, useState } from 'react';
+import { Dimensions } from 'react-native';
 
 const useIsLandscape = () => {
-  const [isLandscape, setIsLandscape] = useState<boolean>(
-    Dimensions.get("window").width > Dimensions.get("window").height
-  );
+	const [isLandscape, setIsLandscape] = useState<boolean>(
+		Dimensions.get('window').width > Dimensions.get('window').height
+	);
 
-  useEffect(() => {
-    const onChange = () => {
-      const { width, height } = Dimensions.get("window");
-      setIsLandscape(width > height);
-    };
+	useEffect(() => {
+		const onChange = () => {
+			const { width, height } = Dimensions.get('window');
+			setIsLandscape(width > height);
+		};
 
-    const subscription = Dimensions.addEventListener("change", onChange);
+		const subscription = Dimensions.addEventListener('change', onChange);
 
-    return () => {
-      subscription?.remove();
-    };
-  }, []);
+		return () => {
+			subscription?.remove();
+		};
+	}, []);
 
-  return isLandscape;
+	return isLandscape;
 };
 
 export default useIsLandscape;
